@@ -16,6 +16,22 @@
             height: 50px;
             margin-right: 10px;
         }
+
+        .like-dislike-buttons {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .like-button,
+        .dislike-button {
+            margin-right: 10px;
+        }
+
+        .like-count,
+        .dislike-count {
+            margin-right: 5px;
+        }
     </style>
     <title>Document</title>
 </head>
@@ -49,6 +65,20 @@
                     <h3>{{ post.user }}</h3>
                     <img src="{{ post.image.url }}" alt="Post Image">
                     <p>{{ post.caption }}</p>
+                    <div class="like-dislike-buttons">
+                        {% if user.is_authenticated %}
+                            <form method="POST" action="{% url 'like' post.id %}" >
+                                {% csrf_token %}
+                                <button type="submit" class="like-button">Like</button>
+                            </form>
+                            <form method="POST" action="{% url 'dislike' post.id %}" >
+                                {% csrf_token %}
+                                <button type="submit" class="dislike-button">Dislike</button>
+                            </form>
+                        {% endif %}
+                        <span class="like-count">Likes: {{ post.no_of_likes }}</span>
+                        <span class="dislike-count">Dislikes: {{ post.no_of_dislikes }}</span>
+                    </div>
                 </div>
             {% endwith %}
         {% endfor %}
