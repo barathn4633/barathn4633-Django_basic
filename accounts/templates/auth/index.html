@@ -49,6 +49,9 @@
 
     {% if user.is_authenticated %}
         <h1><a href="/upload">upload</a><br></h1>
+
+        <h1><a href="/profile">profile</a><br></h1>
+
         <h1><a href="/signout">Sign Out</a><br></h1>
     {% else %}
         <h1><a href="/signin">Sign In</a><br></h1>
@@ -79,6 +82,27 @@
                         <span class="like-count">Likes: {{ post.no_of_likes }}</span>
                         <span class="dislike-count">Dislikes: {{ post.no_of_dislikes }}</span>
                     </div>
+                    <!-- Display comments -->
+
+                    <div class="comments">
+                        {% for comment in post.comments.all %}
+                            <div class="comment">
+                                <p>{{ comment.text }}</p>
+                            </div>
+                        {% empty %}
+                            <p>No comments yet.</p>
+                        {% endfor %}
+                    </div>
+
+                    {% if user.is_authenticated %}
+                        <form method="POST" action="{% url 'create_comment' post.id %}">
+                            {% csrf_token %}
+                            <textarea name="text" placeholder="Add a comment"></textarea>
+                            <button type="submit">Post Comment</button>
+                        </form>
+                    {% else %}
+                        <p>Login to post a comment.</p>
+                    {% endif %}
                 </div>
             {% endwith %}
         {% endfor %}

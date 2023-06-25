@@ -13,6 +13,13 @@ urlpatterns = [
     path('upload', views.upload, name='upload'),
     path('dislike/<uuid:post_id>/', views.dislike, name='dislike'),
     path('like/<uuid:post_id>/', views.like, name='like'),
+    
+    path('create_comment/<uuid:post_id>/', views.create_comment, name='create_comment'),
+    
+    
+    path('profile/', views.profile_view, name='profile'),
+    path('update_profile/', views.update_profile_view, name='update_profile'),
+
 
 
     path('reset_password/', auth_views.PasswordResetView.as_view(template_name="accounts/password_reset.html"),

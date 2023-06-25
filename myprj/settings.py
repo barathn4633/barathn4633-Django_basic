@@ -25,6 +25,8 @@ SECRET_KEY = 'y4-&0*&-gjyoy-wekis^=e&tgi*=iruu2cqno09rw9$v+yod4z'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
 ALLOWED_HOSTS = []
 
 
@@ -132,5 +134,5 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'yourmail.gmail.com'
-EMAIL_HOST_PASSWORD = 'password@yourmail.com'
+EMAIL_HOST_USER = 'rhino.helix001@gmail.com'
+EMAIL_HOST_PASSWORD = 'szrcstvofeercrms'
