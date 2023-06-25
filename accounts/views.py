@@ -1,11 +1,32 @@
 from django.shortcuts import render, redirect
+from django.conf import settings
 from django.http import HttpResponse
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-def index(request):
-    return render(request, 'auth/index.html')
+from .models import *
 
+
+def index(request):
+    posts = Post.objects.all()
+    context = {
+        'posts': [],
+    }
+
+    for post in posts:
+        user = User.objects.get(username=post.user)
+        profile = Profile.objects.get(user=user)
+        profile_img_url = settings.MEDIA_URL + str(profile.profileimg)
+        
+        post_data = {
+            'post': post,
+            'profile_img_url': profile_img_url,
+        }
+        context['posts'].append(post_data)
+
+    return render(request, 'auth/index.html', context)
+
+        # print(profile_img_url)
 
 @login_required(login_url='/signin')
 def signout(request):
@@ -39,8 +60,8 @@ def signup(request):
 
                 #creating profile
                 user_model = User.objects.get(username=username)
-                # new_profile = Profile.objects.create(user=user_model, id_user=user_model.id)
-                # new_profile.save()
+                new_profile = Profile.objects.create(user=user_model, id_user=user_model.id)
+                new_profile.save()
                 return redirect('/')
         else:
             messages.info(request, 'pass1 Not Matching')
@@ -66,3 +87,24 @@ def signin(request):
             auth.login(request,user)
             return redirect('/')
     return render(request, 'auth/signin.html') 
+
+@login_required(login_url='signin')
+def upload(request):
+    if request.method == 'POST':
+        user = request.user.username
+        image = request.FILES.get('image_upload')
+        caption = request.POST['caption']
+
+        new_post = Post.objects.create(user=user, image=image, caption=caption)
+        new_post.save()
+        
+
+        messages.success(request, 'Your post has been uploaded successfully.')
+
+        return redirect('/')
+    else:
+        return render(request, 'auth/post_upload.html')
+    
+
+
+

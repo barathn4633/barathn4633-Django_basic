@@ -1,0 +1,40 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload</title>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+</head>
+<body>
+    <h1>Upload Image</h1>
+
+    <form method="POST" enctype="multipart/form-data" action="{% url 'upload' %}">
+        {% csrf_token %}
+        <input type="file" name="image_upload" accept="image/*" required onchange="previewImage(event)"><br>
+        <img id="image-preview" src="#" alt="Image Preview" style="display: none;"><br>
+        <input type="text" name="caption" placeholder="Caption" required><br>
+        <button type="submit">Upload</button>
+    </form>
+
+    <script>
+        function previewImage(event) {
+            var input = event.target;
+            var preview = document.getElementById('image-preview');
+
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
+</body>
+</html>
