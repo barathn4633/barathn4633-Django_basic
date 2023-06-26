@@ -109,16 +109,6 @@ def upload(request):
         return render(request, 'auth/post_upload.html')
     
     
-@login_required(login_url='signin')
-def create_comment(request, post_id):
-    if request.method == 'POST':
-        text = request.POST.get('text')
-        post = get_object_or_404(Post, id=post_id)
-        user = request.user
-        comment = Comment.objects.create(post=post, username=user.username, text=text)
-        messages.success(request, 'Your comment has been created successfully.')
-        print("Comment created:", comment)
-    return redirect('/')
 
 
 @login_required(login_url='signin')
@@ -183,6 +173,8 @@ def profile_view(request):
     context = {'profile': profile}
     return render(request, 'auth/profile.html', context)
 
+
+
 @login_required(login_url='signin')
 def update_profile_view(request):
 
@@ -207,3 +199,15 @@ def update_profile_view(request):
         
     else:
         return render(request, 'auth/profile.html')
+
+
+@login_required(login_url='signin')
+def create_comment(request, post_id):
+    if request.method == 'POST':
+        text = request.POST.get('text')
+        post = get_object_or_404(Post, id=post_id)
+        user = request.user
+        comment = Comment.objects.create(post=post, username=user.username, text=text)
+        messages.success(request, 'Your comment has been created successfully.')
+        print("Comment created:", comment)
+    return redirect('/')

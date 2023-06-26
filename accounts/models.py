@@ -48,6 +48,16 @@ class Post(models.Model):
         return self.user
     
 
+# class Comment(models.Model):
+#     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments', default=uuid.uuid4)
+#     username = models.CharField(max_length=100, default='default_username')
+#     text = models.TextField()
+#     created_at = models.DateTimeField(auto_now_add=True)
+#     parent_comment = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE, related_name='replies')
+
+#     def __str__(self):
+#         return f'{self.username} - {self.text[:50]}'
+
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments', default=uuid.uuid4)
     username = models.CharField(max_length=100, default='default_username')
@@ -57,7 +67,6 @@ class Comment(models.Model):
 
     def __str__(self):
         return f'{self.username} - {self.text[:50]}'
-
 
 
 
