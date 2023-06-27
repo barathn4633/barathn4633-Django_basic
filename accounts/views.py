@@ -8,8 +8,7 @@ from .models import *
 
 
 def index(request):
-
-    posts = Post.objects.all()
+    posts = Post.objects.order_by('-created_at')
 
     context = {
         'posts': [],
@@ -19,21 +18,22 @@ def index(request):
         user = User.objects.get(username=post.user)
         profile = Profile.objects.get(user=user)
         profile_img_url = settings.MEDIA_URL + str(profile.profileimg)
-        comment= Comment.objects.filter(post_id=post.id).order_by('-created_at')
+        comment = Comment.objects.filter(post_id=post.id).order_by('-created_at')
         post_data = {
             'post': post,
             'profile_img_url': profile_img_url,
-            'comments':comment,
+            'comments': comment,
         }
         context['posts'].append(post_data)
 
     return render(request, 'auth/index.html', context)
 
-        # print(profile_img_url)
+
 
 @login_required(login_url='/signin')
 def signout(request):
     auth.logout(request)
+    messages.info(request, 'User signed out')
     return redirect('/')
 
 
@@ -88,6 +88,7 @@ def signin(request):
 
         else:
             auth.login(request,user)
+            messages.info(request, 'login successful')
             return redirect('/')
     return render(request, 'auth/signin.html') 
 

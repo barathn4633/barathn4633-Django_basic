@@ -1,40 +1,52 @@
+{% extends 'base.html' %}
 {% load static %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload</title>
-    <link rel="stylesheet" href="{% static 'css/main.css' %}">
-</head>
-<body>
-    <h1>Upload Image</h1>
+{% block title %}Upload{% endblock %}
 
-    <form method="POST" enctype="multipart/form-data" action="{% url 'upload' %}">
-        {% csrf_token %}
-        <input type="file" name="image_upload" accept="image/*" required onchange="previewImage(event)"><br>
-        <img id="image-preview" src="#" alt="Image Preview" style="display: none;"><br>
-        <input type="text" name="caption" placeholder="Caption" required><br>
-        <button type="submit">Upload</button>
-    </form>
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h1 class="text-center">Upload Image</h1>
 
-    <script>
-        function previewImage(event) {
-            var input = event.target;
-            var preview = document.getElementById('image-preview');
+            <div class="card shadow">
+                <div class="card-body text-center">
+                    <form method="POST" enctype="multipart/form-data" action="{% url 'upload' %}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <input type="file" name="image_upload" accept="image/*" required onchange="previewImage(event)" class="form-control-file">
+                        </div>
+                        <div class="form-group">
+                            <img id="image-preview" src="#" alt="Image Preview" style="display: none;" class="img-fluid">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="caption" placeholder="Caption" required class="form-control">
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">Upload</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
+<script>
+    function previewImage(event) {
+        var input = event.target;
+        var preview = document.getElementById('image-preview');
 
-                reader.onload = function (e) {
-                    preview.src = e.target.result;
-                    preview.style.display = 'block';
-                }
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
 
-                reader.readAsDataURL(input.files[0]);
+            reader.onload = function (e) {
+                preview.src = e.target.result;
+                preview.style.display = 'block';
             }
+
+            reader.readAsDataURL(input.files[0]);
         }
-    </script>
-</body>
-</html>
+    }
+</script>
+{% endblock %}

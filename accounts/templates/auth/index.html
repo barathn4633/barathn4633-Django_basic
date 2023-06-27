@@ -1,125 +1,119 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=@, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'css/main.css' %}">
-    <style>
-        .post-container {
-            display: flex;
-            align-items: center;
-        }
+{% block content %}
 
-        .profile-image {
-            width: 50px;
-            height: 50px;
-            margin-right: 10px;
-        }
 
-        .like-dislike-buttons {
-            display: flex;
-            align-items: center;
-            margin-top: 10px;
-        }
+<div class="header">
+    SymDa
+    <p>Your Reliable Data Solutions Provider</p>
+</div>
+<button id="sbutton">Scroll to Posts</button>
 
-        .like-button,
-        .dislike-button {
-            margin-right: 10px;
-        }
-
-        .like-count,
-        .dislike-count {
-            margin-right: 5px;
-        }
-    </style>
-    <title>Document</title>
-</head>
-<body>
-    <h1>Index Page</h1>
-    
-    {% for message in messages %}
-    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-        <strong>Message:</strong> {{ message }}
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
+<div class="card-container">
+    <div class="card">
+        <div class="card-text">
+            <h2>Data Handling</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque dignissim justo eget ligula rhoncus, ac rutrum felis cursus.</p>
+            <p>Nulla auctor mi in augue iaculis, eget faucibus lacus semper. Cras eget iaculis nunc. Integer sodales pulvinar malesuada.</p>
+        </div>
+        <img class="card-image" src="{% static 'images/pic1.jpg' %}" alt="Data Image">
     </div>
-    {% endfor %}
 
-    {% if user.is_authenticated %}
-        <h1><a href="/upload">upload</a><br></h1>
+    <div class="card">
+        <img class="card-image" src="{% static 'images/pic2.svg' %}" alt="Data Image">
+        <div class="card-text">
+            <h2>Data Analysis</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque dignissim justo eget ligula rhoncus, ac rutrum felis cursus.</p>
+            <p>Nulla auctor mi in augue iaculis, eget faucibus lacus semper. Cras eget iaculis nunc. Integer sodales pulvinar malesuada.</p>
+        </div>
+    </div>
 
-        <h1><a href="/profile">profile</a><br></h1>
+    <div class="card">
+        <div class="card-text">
+            <h2>Data Visualization</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque dignissim justo eget ligula rhoncus, ac rutrum felis cursus.</p>
+            <p>Nulla auctor mi in augue iaculis, eget faucibus lacus semper. Cras eget iaculis nunc. Integer sodales pulvinar malesuada.</p>
+        </div>
+        <img class="card-image" src="{% static 'images/pic3.jpg' %}" alt="Data Image">
+    </div>
+    <div class="card">
+        <div class="card-text">
+            <h2>Data Visualization</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque dignissim justo eget ligula rhoncus, ac rutrum felis cursus.</p>
+            <p>Nulla auctor mi in augue iaculis, eget faucibus lacus semper. Cras eget iaculis nunc. Integer sodales pulvinar malesuada.</p>
+        </div>
+        <img class="card-image" src="{% static 'images/pic4.jpg' %}" alt="Data Image">
+    </div>
+</div>
 
-        <h1><a href="/signout">Sign Out</a><br></h1>
-    {% else %}
-        <h1><a href="/signin">Sign In</a><br></h1>
-        <h1><a href="/signup">Sign Up</a><br></h1>
-    {% endif %}
-    <img src="{% static 'images/linux.png' %}" alt="">
-
+    
     {% if posts %}
-        <h2>Posts:</h2>
-        {% for post_data in posts %}
-            {% with post=post_data.post profile_img_url=post_data.profile_img_url %}
-                <div class="post-container">
-                    <img src="{{ profile_img_url }}" alt="Profile Image" class="profile-image">
-                    <h3>{{ post.user }}</h3>
-                    <img src="{{ post.image.url }}" alt="Post Image">
-                    <p>{{ post.caption }}</p>
-                    <div class="like-dislike-buttons">
-                        {% if user.is_authenticated %}
-                            <form method="POST" action="{% url 'like' post.id %}" >
-                                {% csrf_token %}
-                                <button type="submit" class="like-button">Like</button>
-                            </form>
-                            <form method="POST" action="{% url 'dislike' post.id %}" >
-                                {% csrf_token %}
-                                <button type="submit" class="dislike-button">Dislike</button>
-                            </form>
-                        {% endif %}
-                        <span class="like-count">Likes: {{ post.no_of_likes }}</span>
-                        <span class="dislike-count">Dislikes: {{ post.no_of_dislikes }}</span>
-                    </div>
-                    <!-- Display comments -->
-
-                    <div class="comments">
-                        {% for comment in post.comments.all %}
-                            <div class="comment">
-                                <p>{{ comment.text }}</p>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <h2 id="posts-disp" >Posts:</h2>
+                {% for post_data in posts %}
+                    {% with post=post_data.post profile_img_url=post_data.profile_img_url %}
+                        <div class="post-container shadow">
+                            <div class="post-header">
+                                <img src="{{ profile_img_url }}" alt="Profile Image" class="profile-image">
+                                <h3>{{ post.user }}</h3>
                             </div>
-                        {% empty %}
-                            <p>No comments yet.</p>
-                        {% endfor %}
-                    </div>
+                            <div class="post-image">
+                                <img src="{{ post.image.url }}" alt="Post Image">
+                            </div>
+                            <div class="post-content">
+                                <div class="like-dislike-buttons">
+                                    {% if user.is_authenticated %}
+                                        <form method="POST" action="{% url 'like' post.id %}">
+                                            {% csrf_token %}
+                                             <button type="submit"><img class="t-up" src="{% static 'images/tup.png' %}" alt="tumbs up"></button>
+                                        </form>
+                                        {% else%} <span class="ran-margin">Likes : </span>
+                                    {% endif %}
+                                    <span style="margin-right: 20px;"> {{ post.no_of_likes }}</span>
+                                    {% if user.is_authenticated %}
+                                        <form method="POST" action="{% url 'dislike' post.id %}">
+                                            {% csrf_token %}
+                                            <button type="submit"><img class="t-down" src="{% static 'images/tdo.jpg' %}" alt="tumbs up"></button>
+                                            
+                                        </form>
+                                        {% else%} <span class="ran-margin">Dis Likes : </span>
+                                    {% endif %}
+                                    <span>{{ post.no_of_dislikes }}</span>
+                                </div>
+                                
+                                <p class="caption"> <span class="caption-user">{{ post.user }} :- </span> {{ post.caption }}</p>
+                                <div class="comments">
+                                    {% for comment in post.comments.all %}
+                                        <div class="comment">
+                                            <p> <span class="caption-user">{{comment.username}}</span> {{ comment.text }}</p>
+                                        </div>
+                                    {% empty %}
+                                        <p>No comments yet.</p>
+                                    {% endfor %}
+                                </div>
+                                {% if user.is_authenticated %}
+                                    <form method="POST" action="{% url 'create_comment' post.id %}">
+                                        {% csrf_token %}
+                                        <textarea name="text" placeholder="Add a comment"></textarea>
+                                        <button type="submit">Post Comment</button>
+                                    </form>
+                                {% else %}
+                                    <p>Login to post a comment.</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endwith %}
 
-                    {% if user.is_authenticated %}
-                        <form method="POST" action="{% url 'create_comment' post.id %}">
-                            {% csrf_token %}
-                            <textarea name="text" placeholder="Add a comment"></textarea>
-                            <button type="submit">Post Comment</button>
-                        </form>
-                    {% else %}
-                        <p>Login to post a comment.</p>
-                    {% endif %}
-                </div>
-            {% endwith %}
-        {% endfor %}
-    {% endif %}
-</body>
-<script>
-    document.addEventListener("DOMContentLoaded", function(event) {
-        var lastVisitedPosition = localStorage.getItem("lastVisitedPosition");
-        if (lastVisitedPosition) {
-            window.scrollTo(0, lastVisitedPosition);
-        }
+                    {% empty %}
+                    <p>No posts yet.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endif %}
 
-        window.addEventListener("beforeunload", function() {
-            localStorage.setItem("lastVisitedPosition", window.scrollY);
-        });
-    });
-    
-    
-</script>
-</html>
+
+
+    {% endblock %}
