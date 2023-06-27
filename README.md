@@ -18,7 +18,7 @@ if no error occur
 ```shell
 python manage.py runserver
 ```
-## The server will open in 
+## The start running in 
 ```shell
 http://127.0.0.1:8000/
 ```
