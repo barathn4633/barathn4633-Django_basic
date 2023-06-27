@@ -18,6 +18,11 @@ if no error occur
 ```shell
 python manage.py runserver
 ```
+## The server will open in 
+```shell
+http://127.0.0.1:8000/
+```
+
 #### Sign Up
  - To create an account, click on the Sign Up link and provide your username, email, and password.
 
