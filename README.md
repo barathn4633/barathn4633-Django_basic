@@ -22,6 +22,12 @@ python manage.py runserver
 ```shell
 http://127.0.0.1:8000/
 ```
+#### if the server did not start use the following command
+```shell
+python manage.py makemigrations
+python manage.py migrate
+python manage.py runserver
+```
 
 #### Sign Up
  - To create an account, click on the Sign Up link and provide your username, email, and password.
